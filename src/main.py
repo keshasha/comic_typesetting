@@ -14,36 +14,46 @@ from src.image_process import get_bubble
 from src.custom_item_widget import item
 from src.utils import check_image_file, open_dir
 
-DEBUG = 1
+DEBUG = 0
+
+# TODO: font size
+# TODO: custom selection
+# TODO: black background
+# TODO: load zip file
+# TODO: recent opened
+# TODO: each page and items keep together
+# TODO: Change to MVC model
+# TODO: using database
 
 
 class Form(QDialog):
 
     class CustomScene(QGraphicsScene):
-        def __init__(self, parent):
-            QGraphicsScene.__init__(self, parent)
-            self.parent = parent
+        def __init__(self, mainForm):
+            QGraphicsScene.__init__(self)
+            self.mainForm = mainForm
 
         def mousePressEvent(self, e) -> None:
             x = e.scenePos().x()
             y = e.scenePos().y()
-            image = self.parent.images[self.parent.page]
+            image = self.mainForm.images[self.mainForm.page]
 
-            if self.parent.select_mode:
+            if self.mainForm.select_mode:
                 image_roi, image_cleaned, roi = get_bubble(image, (x, y))
-                widget = item(image_roi, image_cleaned, roi)
+                widget = item(image_roi, image_cleaned, roi, self.mainForm)
                 itemN = QtWidgets.QListWidgetItem()
                 itemN.setSizeHint(widget.sizeHint())
-                self.parent.ui.listWidget.addItem(itemN)
-                self.parent.ui.listWidget.setItemWidget(itemN, widget)
-                self.parent.ui.listWidget.scrollToBottom()
+                self.mainForm.ui.listWidget.addItem(itemN)
+                self.mainForm.ui.listWidget.setItemWidget(itemN, widget)
+                self.mainForm.ui.listWidget.scrollToBottom()
 
-            self.parent.load_image_on_scene()
+            self.mainForm.load_image_on_scene()
 
     def __init__(self, parent=None):
         QDialog.__init__(self, parent)
 
         self.loaded = False
+        self.dir_name = None
         self.images = []
         self.file_name = []
         self.num_images = 0
@@ -51,7 +61,7 @@ class Form(QDialog):
 
         self.zoom = 1
 
-        self.select_mode = False
+        self.select_mode = True
 
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
@@ -59,11 +69,12 @@ class Form(QDialog):
 
         # Graphics view
         # self.scene = QGraphicsScene(parent=self)  # parent 없이 종료시 crash
-        self.scene = self.CustomScene(parent=self)
+        self.scene = self.CustomScene(mainForm=self)
         self.ui.graphicsView.setScene(self.scene)
 
         # signal 연결
         self.ui.pushButton.clicked.connect(self.open_images)
+        self.ui.pushButton_save.clicked.connect(self.save)
         self.ui.pushButton_next.clicked.connect(self.next_image)
         self.ui.pushButton_prev.clicked.connect(self.prev_image)
         self.ui.pushButton_originalsize.clicked.connect(self.originalsize_image)
@@ -78,17 +89,6 @@ class Form(QDialog):
 
         if DEBUG:
             self.select_mode = True
-            # list widget
-            img_ = cv2.imread('/Users/jongha/Documents/your name 1/0000.jpg')
-            w = img_.shape[1]
-            h = img_.shape[0]
-            img_ = img_[93:266, 318:400]
-
-            widget = item(img_, img_, (93, 266, 318, 400))
-            itemN = QtWidgets.QListWidgetItem()
-            itemN.setSizeHint(widget.sizeHint())
-            self.ui.listWidget.addItem(itemN)
-            self.ui.listWidget.setItemWidget(itemN, widget)
 
             # open test folder
             dir_name = '/Users/jongha/Documents/your name 1'
@@ -105,11 +105,29 @@ class Form(QDialog):
             self.loaded = True
             self.load_image_on_scene()
 
+
+    @pyqtSlot()
+    def save(self):
+        if self.dir_name:
+            dir_save_name = self.dir_name + '_edited'
+            try:
+                os.mkdir(dir_save_name)
+            except OSError:
+                print("Creation of the directory %s failed" % dir_save_name)
+            else:
+                print("Successfully created the directory %s " % dir_save_name)
+
+            for i, image in enumerate(self.images):
+                cv2.imwrite(dir_save_name + '/' + self.file_name[i], image)
+
     @pyqtSlot()
     def open_images(self):
         # open_file()
         dir_name = open_dir()
+        self.dir_name = dir_name
         if dir_name:
+            self.images.clear()
+            self.file_name.clear()
             files_list = os.listdir(dir_name)
             files_list = sorted(files_list)
             for file in files_list:
@@ -128,6 +146,7 @@ class Form(QDialog):
         if self.loaded and (self.page < self.num_images - 1):
             self.page += 1
             self.scene.clear()
+            self.ui.listWidget.clear()
             self.load_image_on_scene()
 
     @pyqtSlot()
@@ -135,6 +154,7 @@ class Form(QDialog):
         if self.loaded and self.page > 0:
             self.page -= 1
             self.scene.clear()
+            self.ui.listWidget.clear()
             self.load_image_on_scene()
 
     @pyqtSlot()
