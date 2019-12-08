@@ -14,7 +14,7 @@ from src.image_process import get_bubble
 from src.custom_item_widget import item
 from src.utils import check_image_file, open_dir
 
-DEBUG = 1
+DEBUG = 1 
 
 
 class Form(QDialog):
@@ -79,7 +79,7 @@ class Form(QDialog):
         if DEBUG:
             self.select_mode = True
             # list widget
-            img_ = cv2.imread('/Users/jongha/Documents/your name 1/0000.jpg')
+            img_ = cv2.imread('/home/heim/Downloads/yourname2-1/0000.jpg')
             w = img_.shape[1]
             h = img_.shape[0]
             img_ = img_[93:266, 318:400]
@@ -91,7 +91,7 @@ class Form(QDialog):
             self.ui.listWidget.setItemWidget(itemN, widget)
 
             # open test folder
-            dir_name = '/Users/jongha/Documents/your name 1'
+            dir_name = '/home/heim/Downloads/yourname2-1/'
             files_list = os.listdir(dir_name)
             files_list = sorted(files_list)
             for file in files_list:
