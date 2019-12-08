@@ -14,6 +14,7 @@ def _find_exterior_contours(img):
 def get_bubble(image, point):
     x, y = point
     h, w = image.shape[:2]
+
     mask = np.zeros((h + 2, w + 2), np.uint8)
     connectivity = 4
     tolerance = (12,) * 3

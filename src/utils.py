@@ -1,3 +1,4 @@
+import numpy as np
 import pytesseract as ocr
 import cv2
 from PyQt5.QtGui import QImage, QPixmap
@@ -34,3 +35,16 @@ def mat2qpixmap(img):
     qImg = QImage(img.data, width, height, bytesPerLine, QImage.Format_RGB888)
     qpixmap = QPixmap.fromImage(qImg)
     return qpixmap
+
+
+def qimage2mat(qimage:QImage):
+    incomingImage = qimage.convertToFormat(QImage.Format.Format_RGBA8888)
+
+    width = incomingImage.width()
+    height = incomingImage.height()
+
+    ptr = incomingImage.bits()
+    ptr.setsize(height * width * 4)
+    arr = np.frombuffer(ptr, np.uint8).reshape((height, width, 4))
+
+    return arr
