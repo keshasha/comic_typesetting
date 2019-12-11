@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import QtWidgets
 
-from src.mainForm import Form
+from mainForm import Form
 
 
 def main():

@@ -5,9 +5,9 @@ from PyQt5.QtCore import pyqtSlot, QRectF, QRect, QSize
 from PyQt5.QtGui import QColor, QImage, QPainter, QPixmap, QFont
 from PyQt5.QtWidgets import QGraphicsScene, QGraphicsTextItem, QGraphicsPixmapItem
 
-from src.utils import mat2qpixmap, ocr_core, qimage2mat
+from utils import mat2qpixmap, ocr_core, qimage2mat
 
-from src.ui.ui_item import Ui_Form
+from ui.ui_item import Ui_Form
 
 
 class item(QtWidgets.QWidget):
@@ -44,9 +44,12 @@ class item(QtWidgets.QWidget):
         self.ui.textEdit_edit.textChanged.connect(self.texting)
         self.ui.pushButton_apply.clicked.connect(self.render_image)
         self.ui.pushButton_left.clicked.connect(lambda: self.move_text('left'))
-        self.ui.pushButton_right.clicked.connect(lambda: self.move_text('right'))
-        self.ui.pushButton_fontlarger.clicked.connect(lambda: self.text_size(1))
-        self.ui.pushButton_fontsmaller.clicked.connect(lambda: self.text_size(-1))
+        self.ui.pushButton_right.clicked.connect(
+            lambda: self.move_text('right'))
+        self.ui.pushButton_fontlarger.clicked.connect(
+            lambda: self.text_size(1))
+        self.ui.pushButton_fontsmaller.clicked.connect(
+            lambda: self.text_size(-1))
 
     @pyqtSlot()
     def texting(self):
@@ -101,7 +104,8 @@ class item(QtWidgets.QWidget):
         # qimage = QImage(self.qPixmap.size(), QImage.Format_ARGB32_Premultiplied)
         qimage = QImage(self.qPixmap.size(), QImage.Format_RGB32)
         painter = QPainter(qimage)
-        self.scene_edit.render(painter, QRectF(qimage.rect()), QRectF(self.qPixmap.rect()))
+        self.scene_edit.render(painter, QRectF(
+            qimage.rect()), QRectF(self.qPixmap.rect()))
         painter.end()
 
         qpixmap = QPixmap.fromImage(qimage)
@@ -110,7 +114,8 @@ class item(QtWidgets.QWidget):
         self.mainForm.scene.addItem(qpixmapItem)
 
         mainImage = self.mainForm.images[self.mainForm.page]
-        qimage = QImage(QSize(mainImage.shape[1], mainImage.shape[0]), QImage.Format_RGB32)
+        qimage = QImage(
+            QSize(mainImage.shape[1], mainImage.shape[0]), QImage.Format_RGB32)
         painter = QPainter(qimage)
 
         self.mainForm.scene.render(painter,

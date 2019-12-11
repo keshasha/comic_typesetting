@@ -8,11 +8,17 @@ from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtWidgets import QGraphicsScene, QDialog
 
-from src.ui.ui_main import Ui_Dialog
+# from src.ui.ui_main import Ui_Dialog
 
-from src.image_process import get_bubble
-from src.custom_item_widget import item
-from src.utils import check_image_file, open_dir
+# from src.image_process import get_bubble
+# from src.custom_item_widget import item
+# from src.utils import check_image_file, open_dir
+
+from ui.ui_main import Ui_Dialog
+
+from image_process import get_bubble
+from custom_item_widget import item
+from utils import check_image_file, open_dir
 
 DEBUG = 0
 
@@ -77,7 +83,8 @@ class Form(QDialog):
         self.ui.pushButton_save.clicked.connect(self.save)
         self.ui.pushButton_next.clicked.connect(self.next_image)
         self.ui.pushButton_prev.clicked.connect(self.prev_image)
-        self.ui.pushButton_originalsize.clicked.connect(self.originalsize_image)
+        self.ui.pushButton_originalsize.clicked.connect(
+            self.originalsize_image)
         self.ui.pushButton_fit.clicked.connect(self.fit_image)
         self.ui.pushButton_select.clicked.connect(self.select_toggle)
 
@@ -104,7 +111,6 @@ class Form(QDialog):
             self.num_images = len(self.images)
             self.loaded = True
             self.load_image_on_scene()
-
 
     @pyqtSlot()
     def save(self):
@@ -164,7 +170,8 @@ class Form(QDialog):
     @pyqtSlot()
     def fit_image(self):
         if self.images:
-            self.ui.graphicsView.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)
+            self.ui.graphicsView.fitInView(
+                self.scene.sceneRect(), Qt.KeepAspectRatio)
 
     @pyqtSlot()
     def selectall(self):
@@ -184,13 +191,15 @@ class Form(QDialog):
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             height, width, channel = image.shape
             bytesPerLine = 3 * width
-            qImg = QImage(image.data, width, height, bytesPerLine, QImage.Format_RGB888)
+            qImg = QImage(image.data, width, height,
+                          bytesPerLine, QImage.Format_RGB888)
             image = QPixmap.fromImage(qImg)
             self.scene.addPixmap(image)
             self.scene.update()
             self.fit_image()
 
-            self.ui.label_filename.setText("{}  {}/{}".format(self.file_name[self.page], self.page+1, self.num_images))
+            self.ui.label_filename.setText(
+                "{}  {}/{}".format(self.file_name[self.page], self.page+1, self.num_images))
 
     def wheelEvent(self, event):
         modifiers = QtWidgets.QApplication.keyboardModifiers()
@@ -221,5 +230,3 @@ class Form(QDialog):
 
     def resizeEvent(self, event):
         self.fit_image()
-
-

@@ -19,14 +19,16 @@ def get_bubble(image, point):
     connectivity = 4
     tolerance = (12,) * 3
     flood_fill_flags = (
-            connectivity | cv2.FLOODFILL_FIXED_RANGE | cv2.FLOODFILL_MASK_ONLY | 255 << 8
+        connectivity | cv2.FLOODFILL_FIXED_RANGE | cv2.FLOODFILL_MASK_ONLY | 255 << 8
     )  # 255 << 8 tells to fill with the value 255
-    cv2.floodFill(image, mask, (int(x), int(y)), (0, 0, 0), tolerance, tolerance, flood_fill_flags)
+    cv2.floodFill(image, mask, (int(x), int(y)), (0, 0, 0),
+                  tolerance, tolerance, flood_fill_flags)
     mask = mask[1:-1, 1:-1].copy()
 
     image_cleaned = image.copy()
     contours = _find_exterior_contours(mask)
-    cv2.drawContours(image_cleaned, contours, -1, color=(255, 255, 255), thickness=-1)
+    cv2.drawContours(image_cleaned, contours, -1,
+                     color=(255, 255, 255), thickness=-1)
     x, y, w, h = cv2.boundingRect(mask)
     roi = (y, y + h, x, x + w)
     image_roi = image[y:y + h, x:x + w]

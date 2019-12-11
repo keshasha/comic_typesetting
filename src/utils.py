@@ -37,7 +37,7 @@ def mat2qpixmap(img):
     return qpixmap
 
 
-def qimage2mat(qimage:QImage):
+def qimage2mat(qimage: QImage):
     incomingImage = qimage.convertToFormat(QImage.Format.Format_RGBA8888)
 
     width = incomingImage.width()
