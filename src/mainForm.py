@@ -8,12 +8,6 @@ from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtWidgets import QGraphicsScene, QDialog
 
-# from src.ui.ui_main import Ui_Dialog
-
-# from src.image_process import get_bubble
-# from src.custom_item_widget import item
-# from src.utils import check_image_file, open_dir
-
 from ui.ui_main import Ui_Dialog
 
 from image_process import get_bubble
