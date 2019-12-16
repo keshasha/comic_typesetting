@@ -1,7 +1,5 @@
-import sys
 import os
 import cv2
-import numpy as np
 
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot, Qt
@@ -27,7 +25,6 @@ DEBUG = 0
 
 
 class Form(QDialog):
-
     class CustomScene(QGraphicsScene):
         def __init__(self, mainForm):
             QGraphicsScene.__init__(self)
@@ -40,6 +37,8 @@ class Form(QDialog):
 
             if self.mainForm.select_mode:
                 image_roi, image_cleaned, roi = get_bubble(image, (x, y))
+                if not self.mainForm.ui.checkBox_autofill.isChecked():
+                    image_cleaned = None
                 widget = item(image_roi, image_cleaned, roi, self.mainForm)
                 itemN = QtWidgets.QListWidgetItem()
                 itemN.setSizeHint(widget.sizeHint())
@@ -66,24 +65,29 @@ class Form(QDialog):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.show()
-
         # Graphics view
         # self.scene = QGraphicsScene(parent=self)  # parent 없이 종료시 crash
         self.scene = self.CustomScene(mainForm=self)
         self.ui.graphicsView.setScene(self.scene)
 
+        self.ui.comboBox_open_recent.model().item(1).setEnabled(False)
+
         # signal 연결
-        self.ui.pushButton.clicked.connect(self.open_images)
+        self.ui.pushButton_open_folder.clicked.connect(self.open_folder)
         self.ui.pushButton_save.clicked.connect(self.save)
+
+
+        self.ui.comboBox_fit.currentIndexChanged.connect(self.fit_image)
+
         self.ui.pushButton_next.clicked.connect(self.next_image)
         self.ui.pushButton_prev.clicked.connect(self.prev_image)
-        self.ui.pushButton_originalsize.clicked.connect(
-            self.originalsize_image)
-        self.ui.pushButton_fit.clicked.connect(self.fit_image)
+        # self.ui.pushButton_originalsize.clicked.connect(
+        #     self.originalsize_image)
+        # self.ui.pushButton_fit.clicked.connect(self.fit_image)
         self.ui.pushButton_select.clicked.connect(self.select_toggle)
 
-        self.ui.pushButton_selectall.clicked.connect(self.selectall)
-        self.ui.pushButton_deselectall.clicked.connect(self.deselect)
+        self.ui.pushButton_select_all.clicked.connect(self.select_all)
+        self.ui.pushButton_deselect_all.clicked.connect(self.deselect)
 
         # mouse 사용
         self.setMouseTracking(True)
@@ -109,19 +113,19 @@ class Form(QDialog):
     @pyqtSlot()
     def save(self):
         if self.dir_name:
-            dir_save_name = self.dir_name + '_edited'
-            try:
-                os.mkdir(dir_save_name)
-            except OSError:
-                print("Creation of the directory %s failed" % dir_save_name)
-            else:
-                print("Successfully created the directory %s " % dir_save_name)
+            dir_save_name = self.dir_name
+            # try:
+            #     os.mkdir(dir_save_name)
+            # except OSError:
+            #     print("Creation of the directory %s failed" % dir_save_name)
+            # else:
+            #     print("Successfully created the directory %s " % dir_save_name)
 
             for i, image in enumerate(self.images):
                 cv2.imwrite(dir_save_name + '/' + self.file_name[i], image)
 
     @pyqtSlot()
-    def open_images(self):
+    def open_folder(self):
         # open_file()
         dir_name = open_dir()
         self.dir_name = dir_name
@@ -157,18 +161,26 @@ class Form(QDialog):
             self.ui.listWidget.clear()
             self.load_image_on_scene()
 
-    @pyqtSlot()
-    def originalsize_image(self):
-        self.ui.graphicsView.resetTransform()
+    # @pyqtSlot()
+    # def originalsize_image(self):
+    #     self.ui.graphicsView.resetTransform()
 
     @pyqtSlot()
     def fit_image(self):
         if self.images:
-            self.ui.graphicsView.fitInView(
-                self.scene.sceneRect(), Qt.KeepAspectRatio)
+            if self.ui.comboBox_fit.currentIndex() == 0:
+                # fit height
+                self.ui.graphicsView.fitInView(
+                    self.scene.sceneRect(), Qt.KeepAspectRatio)
+            elif self.ui.comboBox_fit.currentIndex() == 1:
+                # fit width
+                pass
+            elif self.ui.comboBox_fit.currentIndex() == 2:
+                # original
+                self.ui.graphicsView.resetTransform()
 
     @pyqtSlot()
-    def selectall(self):
+    def select_all(self):
         self.ui.listWidget.selectAll()
 
     @pyqtSlot()
@@ -193,7 +205,7 @@ class Form(QDialog):
             self.fit_image()
 
             self.ui.label_filename.setText(
-                "{}  {}/{}".format(self.file_name[self.page], self.page+1, self.num_images))
+                "{}  {}/{}".format(self.file_name[self.page], self.page + 1, self.num_images))
 
     def wheelEvent(self, event):
         modifiers = QtWidgets.QApplication.keyboardModifiers()

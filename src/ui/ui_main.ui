@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1382</width>
-    <height>1057</height>
+    <width>1395</width>
+    <height>1063</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,35 +25,151 @@
   <property name="sizeGripEnabled">
    <bool>false</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,25">
+   <property name="leftMargin">
+    <number>10</number>
+   </property>
+   <property name="topMargin">
+    <number>10</number>
+   </property>
+   <property name="rightMargin">
+    <number>10</number>
+   </property>
+   <property name="bottomMargin">
+    <number>10</number>
+   </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,1,1,1,1,20,2,2">
+     <property name="spacing">
+      <number>-1</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="pushButton_open_folder">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>Open Folder</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../res/folder.png</normaloff>../res/folder.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_4">
+      <widget class="QPushButton" name="pushButton_open_images">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
-        <string>Open Files</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../res/comic.png</normaloff>../res/comic.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_5">
+      <widget class="QPushButton" name="pushButton_open_zip">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
-        <string>Open Zip</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../res/zip.png</normaloff>../res/zip.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
        </property>
       </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox_open_recent">
+       <item>
+        <property name="text">
+         <string>Open recent</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>------------</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_save">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../res/save.png</normaloff>../res/save.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item>
       <widget class="QLabel" name="label">
@@ -74,11 +190,30 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout" stretch="1,17">
+      <layout class="QVBoxLayout" name="verticalLayout" stretch="1,15">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1,1,1,1,1,1">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,1,1,1,1">
          <item>
-          <widget class="QPushButton" name="pushButton_save">
+          <widget class="QComboBox" name="comboBox_fit">
+           <item>
+            <property name="text">
+             <string>Fit Height</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Fit Width</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Original</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_select">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -86,7 +221,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>SAVE</string>
+            <string>SEL</string>
            </property>
           </widget>
          </item>
@@ -103,45 +238,6 @@
            </property>
            <property name="text">
             <string>RESET</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_originalsize">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>ORG</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_fit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>FIT</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_select">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>SEL</string>
            </property>
           </widget>
          </item>
@@ -217,11 +313,21 @@
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,17">
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,15">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1,1,1,1,1,1,1">
          <item>
-          <widget class="QPushButton" name="pushButton_selectall">
+          <widget class="QCheckBox" name="checkBox_autofill">
+           <property name="text">
+            <string>AutoMode</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_select_all">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
              <horstretch>1</horstretch>
@@ -237,7 +343,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_deselectall">
+          <widget class="QPushButton" name="pushButton_deselect_all">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -314,23 +420,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_16">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>B</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_applyall">
+          <widget class="QPushButton" name="pushButton_apply_all">
            <property name="enabled">
             <bool>true</bool>
            </property>
@@ -383,4 +473,7 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>

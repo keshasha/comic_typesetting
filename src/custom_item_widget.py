@@ -16,7 +16,10 @@ class item(QtWidgets.QWidget):
         self.ui = Ui_Form()
         self.ui.setupUi(self)
 
-        self.image = image_cleaned
+        if image_cleaned is not None:
+            self.image = image_cleaned
+        else:
+            self.image = image_origin
         self.roi = roi
         self.mainForm = mainForm
 
@@ -32,7 +35,7 @@ class item(QtWidgets.QWidget):
         self.ui.graphicsView_origin.setScene(scene_origin)
 
         self.scene_edit = QGraphicsScene()
-        self.qPixmap = mat2qpixmap(image_cleaned)
+        self.qPixmap = mat2qpixmap(self.image)
         self.scene_edit.addPixmap(self.qPixmap)
         self.scene_edit.update()
         self.ui.graphicsView_edit.setScene(self.scene_edit)
